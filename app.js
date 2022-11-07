@@ -31,20 +31,7 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            let singleOrMultiple = promptFor('Would you like to search for one trait or multiple? ', singleMultiple)
-            switch (singleOrMultiple){
-                case "one":
-                    let traitToSearch = promptFor('Which trait would you like to search for?', makeLowerCase)
-                    let singleTrait = people.filter(function (person){
-                        if (person[traitToSearch] === )
-                            return true;
-                    return singleTrait;
-                    })
-                case "multiple": 
-
-                default:
-                    return singleOrMultiple;
-            }
+            searchResults = searchByTrait(people)
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -115,8 +102,8 @@ function mainMenu(person, people) {
  * @returns {Array}             An array containing the person-object (or empty array if no match)
  */
 function searchByName(people) {
-    let firstName = promptFor("What is the person's first name?", chars);
-    let lastName = promptFor("What is the person's last name?", chars);
+    let firstName = promptFor("What is the person's first name?", makeLowerCase);
+    let lastName = promptFor("What is the person's last name?", makeLowerCase);
 
     // The foundPerson value will be of type Array. Recall that .filter() ALWAYS returns an array.
     let foundPerson = people.filter(function (person) {
@@ -174,7 +161,7 @@ function displayPerson(person) {
  */
 function promptFor(question, valid) {
     do {
-        var response = prompt(question).trim();
+        var response = prompt(question).toLowerCase().trim();
     } while (!response || !valid(response));
     return response;
 }
@@ -197,26 +184,33 @@ function yesNo(input) {
  * @returns {Boolean}           Default validation -- no logic yet.
  */
 function chars(input) {
-    return input.toLowerCase().trim(); // Default validation only
+    return true; // Default validation only
 }
 // End of chars()
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
-function singleMultiple(input){
-    return input.toLowerCase().trim() === "one" || input.toLowerCase().trim() === "multiple"
+
+function searchByTrait(people){
+    let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
+    let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`)
+    let foundPersonByTrait = people.filter(function(person){
+        if (person[traitToSearchBy] == traitToSearch){
+            return true;
+        }
+    })
+    return foundPersonByTrait;
+
 }
 
-function searchByTraits(){
-    let traitToSearch = prompt('Which trait would you like to search for? "gender", "DoB", "height","weight","eye color", or "occupation"?')
-    switch(traitToSearch){
-        case "gender": 
+function checkIfTrait(input){
+    let validInput = ["gender", "date of birth", "height", "weight", "eye color", "occupation"]
+    if (validInput.includes(input)){
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
-
-function makeLowerCase(input){
-    let output = input.toLowerCase().trim()
-    return output
-}
