@@ -36,7 +36,7 @@ function app(people) {
                 case "one":
                     let traitToSearch = promptFor('Which trait would you like to search for?', makeLowerCase)
                     let singleTrait = people.filter(function (person){
-                        if (person[traitToSearch])
+                        if (person[traitToSearch] === )
                             return true;
                     return singleTrait;
                     })
