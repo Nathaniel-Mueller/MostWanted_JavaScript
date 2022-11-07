@@ -31,7 +31,20 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            searchResults = searchByTraits(people);
+            let singleOrMultiple = promptFor('Would you like to search for one trait or multiple? ', singleMultiple)
+            switch (singleOrMultiple){
+                case "one":
+                    let traitToSearch = promptFor('Which trait would you like to search for?', makeLowerCase)
+                    let singleTrait = people.filter(function (person){
+                        if (person[traitToSearch])
+                            return true;
+                    return singleTrait;
+                    })
+                case "multiple": 
+
+                default:
+                    return singleOrMultiple;
+            }
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
@@ -184,17 +197,26 @@ function yesNo(input) {
  * @returns {Boolean}           Default validation -- no logic yet.
  */
 function chars(input) {
-    return true; // Default validation only
+    return input.toLowerCase().trim(); // Default validation only
 }
 // End of chars()
 
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
+function singleMultiple(input){
+    return input.toLowerCase().trim() === "one" || input.toLowerCase().trim() === "multiple"
+}
 
 function searchByTraits(){
     let traitToSearch = prompt('Which trait would you like to search for? "gender", "DoB", "height","weight","eye color", or "occupation"?')
     switch(traitToSearch){
         case "gender": 
     }
+}
+
+
+function makeLowerCase(input){
+    let output = input.toLowerCase().trim()
+    return output
 }
