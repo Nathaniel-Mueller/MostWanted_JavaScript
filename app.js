@@ -210,6 +210,7 @@ function checkIfTrait(input){
         return true;
     }
     else {
+        alert ("I'm sorry, that's not a valid input, please try again!")
         return false;
     }
 }
