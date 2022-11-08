@@ -102,12 +102,12 @@ function mainMenu(person, people) {
  * @returns {Array}             An array containing the person-object (or empty array if no match)
  */
 function searchByName(people) {
-    let firstName = promptFor("What is the person's first name?", makeLowerCase);
-    let lastName = promptFor("What is the person's last name?", makeLowerCase);
+    let firstName = promptFor("What is the person's first name?", chars);
+    let lastName = promptFor("What is the person's last name?", chars);
 
     // The foundPerson value will be of type Array. Recall that .filter() ALWAYS returns an array.
     let foundPerson = people.filter(function (person) {
-        if (person.firstName === firstName && person.lastName === lastName) {
+        if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
             return true;
         }
     });
@@ -145,7 +145,7 @@ function displayPerson(person) {
     personInfo += `Height: ${person.height}\n`
     personInfo += `Weight: ${person.weight}\n`
     personInfo += `Eye Color: ${person.eyeColor}\n`
-    personInfo += `Occupation: ${person.occupation}`
+    personInfo += `Occupation: ${person.occupation}\n`
     //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
     alert(personInfo);
 }
@@ -161,7 +161,7 @@ function displayPerson(person) {
  */
 function promptFor(question, valid) {
     do {
-        var response = prompt(question).toLowerCase().trim();
+        var response = prompt(question).trim();
     } while (!response || !valid(response));
     return response;
 }
@@ -193,20 +193,32 @@ function chars(input) {
 
 
 function searchByTrait(people){
-    let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
-    let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`)
-    let foundPersonByTrait = people.filter(function(person){
-        if (person[traitToSearchBy] == traitToSearch){
-            return true;
+    let traitArray = []
+    let inTraitArray = []
+    let searchByAnother;
+    do {
+        let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eyeColor", or "occupation"', checkIfTrait)
+        let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`,chars)
+        traitArray.push(traitToSearch)
+        inTraitArray.push(traitToSearchBy)
+        if (traitArray.length < 2){
+            searchByAnother = promptFor('Would you like to search for an additional trait?',yesNo)
         }
-    })
+        else searchByAnother = 'no'
+    } while (searchByAnother !== 'no')
+    
+
+    let foundPersonByTrait = people.filter(function(person){
+        if (person[inTraitArray[0]].includes(traitArray[0]) && person[inTraitArray[1]].includes(traitArray[1])){
+            return true;
+        }})
     return foundPersonByTrait;
 
 }
 
 function checkIfTrait(input){
-    let validInput = ["gender", "date of birth", "height", "weight", "eye color", "occupation"]
-    if (validInput.includes(input)){
+    let validInput = ["gender", "date of birth", "height", "weight", "eyecolor", "occupation"]
+    if (validInput.includes(input.toLowerCase())){
         return true;
     }
     else {
