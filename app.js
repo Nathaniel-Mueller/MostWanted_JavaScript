@@ -195,37 +195,64 @@ function chars(input) {
 function searchByTrait(people){
     let traitArray = []
     let inTraitArray = []
-    let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eyeColor", or "occupation"', checkIfTrait)
-    let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`,chars)
-    traitArray.push(traitToSearch)
-    inTraitArray.push(traitToSearchBy)
     let foundPersonByTrait;
-    let searchByAnother = promptFor('Would you like to search for an additional trait?',yesNo)
-    switch (searchByAnother){
+    let searchByAnother;
+    let searchLength = 0;
+    while (searchByAnother != 'no' && searchLength < 5){
+        let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eyeColor", or "occupation"', checkIfTrait)
+        let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`,chars)
+        traitArray.push(traitToSearch)
+        inTraitArray.push(traitToSearchBy)
+        searchLength = traitArray.length
+        searchByAnother = promptFor(`Would you like to search for an additional trait? (${searchLength}/5)`,yesNo)
+    }
+    switch (searchLength){
 
-        case 'yes':
-
-            let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eyeColor", or "occupation"', checkIfTrait)
-            let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`,chars)
-            traitArray.push(traitToSearch)
-            inTraitArray.push(traitToSearchBy)
-            foundPersonByTrait = people.filter(function(person){
-                if (person[inTraitArray[0]].includes(traitArray[0]) && person[inTraitArray[1]].includes(traitArray[1])){
-                    return true;
-                }})
-            return foundPersonByTrait;
-
-        case 'no':
+        case 1:
             
             foundPersonByTrait = people.filter(function(person){
-                if (person[inTraitArray[0]].includes(traitArray[0])){
+                if (person[inTraitArray[0]] == traitArray[0]){
                     return true;
                 }})
-            return foundPersonByTrait;
+            return foundPersonByTrait
+
+        case 2:
+
+            foundPersonByTrait = people.filter(function(person){
+                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1]){
+                    return true;
+                }})
+            return foundPersonByTrait
+        
+        case 3: 
+
+        foundPersonByTrait = people.filter(function(person){
+            if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2]){
+                return true;
+            }})
+        return foundPersonByTrait
+
+        case 4:
+
+            foundPersonByTrait = people.filter(function(person){
+                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3]){
+                    return true;
+                }})
+            return foundPersonByTrait
+
+        case 5:
+
+            foundPersonByTrait = people.filter(function(person){
+                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3] && person[inTraitArray[4]] == traitArray[4]){
+                    return true;
+                }})
+            return foundPersonByTrait
+
     }
 
 
 }
+
 
 function checkIfTrait(input){
     let validInput = ["gender", "date of birth", "height", "weight", "eyecolor", "occupation"]
