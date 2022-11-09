@@ -202,6 +202,9 @@ function findPersonFamily(person, people){
     })
 
     let personSiblings = people.filter(function(sibling){
+        if (person.parents.length === 0){
+            return false;
+        }
         if (person.parents[0] === sibling.parents[0] || person.parents[0] === sibling.parents[1]){
             if (person === sibling){
                 return false;
@@ -215,9 +218,22 @@ function findPersonFamily(person, people){
             return true;
         }
     })
-    let familyInfo;
-    if (person.parents.length === )
-    displayPerson(personSpouse[0])
+
+    alert(
+        'Parents: \n'+
+        personParents.map(function (parent) {
+            return `${parent.firstName} ${parent.lastName}`;
+        }).join("\n")+
+        '\nSpouse: \n'+
+        personSpouse.map(function (spouse){
+            return `${spouse.firstName} ${spouse.lastName}`;
+        }).join('\n')+
+        '\nSiblings: \n'+
+        personSiblings.map(function(sibling){
+            return `${sibling.firstName} ${sibling.lastName}`
+        }).join('\n')
+    );
+
 }
 
 function searchByTrait(people){
