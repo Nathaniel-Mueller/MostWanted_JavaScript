@@ -199,8 +199,10 @@ function searchByTrait(people){
     let searchByAnother;
     let searchLength = 0;
     while (searchByAnother != 'no' && searchLength < 5){
-        let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eyeColor", or "occupation"', checkIfTrait)
-        let traitToSearch = promptFor(`Please enter a(n) ${traitToSearchBy}.`,chars)
+        let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
+        let traitPrompt = changeTraitType(traitToSearchBy)
+        let traitToSearch = promptFor(`Please enter a(n) ${traitPrompt}.`,chars)
+        traitToSearchBy = checkTraitToSearchBy(traitToSearchBy)
         traitArray.push(traitToSearch)
         inTraitArray.push(traitToSearchBy)
         searchLength = traitArray.length
@@ -209,7 +211,6 @@ function searchByTrait(people){
     switch (searchLength){
 
         case 1:
-            
             foundPersonByTrait = people.filter(function(person){
                 if (person[inTraitArray[0]] == traitArray[0]){
                     return true;
@@ -217,33 +218,33 @@ function searchByTrait(people){
             return foundPersonByTrait
 
         case 2:
-
             foundPersonByTrait = people.filter(function(person){
                 if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1]){
                     return true;
                 }})
             return foundPersonByTrait
-        
-        case 3: 
 
+        case 3: 
         foundPersonByTrait = people.filter(function(person){
-            if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2]){
+            if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] &&
+                person[inTraitArray[2]] == traitArray[2]){
                 return true;
             }})
         return foundPersonByTrait
 
         case 4:
-
             foundPersonByTrait = people.filter(function(person){
-                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3]){
+                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1]
+                && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3]){
                     return true;
                 }})
             return foundPersonByTrait
 
         case 5:
-
             foundPersonByTrait = people.filter(function(person){
-                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3] && person[inTraitArray[4]] == traitArray[4]){
+                if (person[inTraitArray[0]] == traitArray[0] && person[inTraitArray[1]] == traitArray[1] 
+                && person[inTraitArray[2]] == traitArray[2] && person[inTraitArray[3]] == traitArray[3] &&
+                    person[inTraitArray[4]] == traitArray[4]){
                     return true;
                 }})
             return foundPersonByTrait
@@ -253,9 +254,8 @@ function searchByTrait(people){
 
 }
 
-
 function checkIfTrait(input){
-    let validInput = ["gender", "date of birth", "height", "weight", "eyecolor", "occupation"]
+    let validInput = ["gender", "date of birth", "height", "weight", "eye color", "occupation"]
     if (validInput.includes(input.toLowerCase())){
         return true;
     }
@@ -265,3 +265,29 @@ function checkIfTrait(input){
     }
 }
 
+function changeTraitType(input){
+    if (input === 'date of birth'){
+        input = 'date of birth (m/d/yyyy)'
+        return input
+    }
+    else if (input === 'height'){
+        input = 'height (in inches)'
+        return input
+    }
+    else if (input === 'weight'){
+        input = 'weight (in pounds)'
+        return input
+    }
+    else return input
+}
+
+function checkTraitToSearchBy(input){
+    if (input === 'eye color'){       // Small statement to properly access data
+        input = 'eyeColor'
+        return input
+    }
+    else if (input === 'date of birth'){
+        input = 'dob'
+        return input
+    }
+}
