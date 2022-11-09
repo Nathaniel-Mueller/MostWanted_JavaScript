@@ -192,6 +192,34 @@ function chars(input) {
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
 
+
+function findPersonFamily(person, people){
+    
+    let personParents = people.filter(function(parent){
+        if (parent.id === person.parents[0] || parent.id === person.parents[1]){
+            return true
+        }
+    })
+
+    let personSiblings = people.filter(function(sibling){
+        if (person.parents[0] === sibling.parents[0] || person.parents[0] === sibling.parents[1]){
+            if (person === sibling){
+                return false;
+            }
+            return true;
+        }
+    })
+
+    let personSpouse = people.filter(function (spouse){
+        if (person.currentSpouse === spouse.id){
+            return true;
+        }
+    })
+    let familyInfo;
+    if (person.parents.length === )
+    displayPerson(personSpouse[0])
+}
+
 function searchByTrait(people){
     let traitArray = []
     let inTraitArray = []
