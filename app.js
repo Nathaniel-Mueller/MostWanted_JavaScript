@@ -19,9 +19,7 @@ function app(people) {
     // promptFor() is a custom function defined below that helps us prompt and validate input more easily
     // Note that we are chaining the .toLowerCase() immediately after the promptFor returns its value
     let searchType = promptFor(
-        "Do you know the name of the person you are looking for? Enter 'yes' or 'no'",
-        yesNo
-    ).toLowerCase();
+        "Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo)
     let searchResults;
     // Routes our application based on the user's input
     switch (searchType) {
@@ -160,6 +158,15 @@ function promptFor(question, valid) {
     do {
         var response = prompt(question).trim();
     } while (!response || !valid(response));
+    if (response === 'y'){
+        response = 'yes'
+    }
+    else if (response === 'n'){
+        response = 'no'
+    } 
+    else {
+        //pass
+    }
     return response;
 }
 // End of promptFor()
