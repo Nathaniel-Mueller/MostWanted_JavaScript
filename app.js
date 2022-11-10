@@ -73,13 +73,11 @@ function mainMenu(person, people) {
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
             // HINT: Look for a people-collection stringifier utility function to help
             let personFamily = findPersonFamily(person[0], people);
-            alert(personFamily);
             break;
         case "descendants":
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
-            alert(personDescendants);
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -191,6 +189,16 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
+
+function findPersonDescendants(person, people){
+
+    let checkIfParent = people.filter(function(child){
+        if (person.id === child.parents[0] || person.id === child.parents[1]){
+            return true;
+        }
+    })
+    console.log (checkIfParent)
+}
 
 
 function findPersonFamily(person, people){
