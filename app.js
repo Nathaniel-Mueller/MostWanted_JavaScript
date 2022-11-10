@@ -67,7 +67,6 @@ function mainMenu(person, people) {
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
             let personInfo = displayPerson(person[0]);
-            alert(personInfo);
             break;
         case "family":
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
@@ -171,6 +170,12 @@ function promptFor(question, valid) {
  * @returns {Boolean}           The result of our condition evaluation.
  */
 function yesNo(input) {
+    if (input.toLowerCase() === 'y'){
+        input = 'yes'
+    }
+    else if (input.toLowerCase() === 'n'){
+        input = 'no'
+    }
     return input.toLowerCase() === "yes" || input.toLowerCase() === "no";
 }
 // End of yesNo()
@@ -258,7 +263,7 @@ function searchByTrait(people){
         traitArray.push(traitToSearch)
         inTraitArray.push(traitToSearchBy)
         searchLength = traitArray.length
-        searchByAnother = promptFor(`Would you like to search for an additional trait? (${searchLength}/5)`,yesNo)
+        searchByAnother = promptFor(`Would you like to search for an additional trait? (y/n) (Search: ${searchLength}/5)`,yesNo)
     }
     switch (searchLength){
 
