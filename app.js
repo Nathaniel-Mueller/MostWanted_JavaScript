@@ -204,12 +204,15 @@ function chars(input) {
 
 function findPersonDescendants(person, people){
 
-    let checkIfParent = people.filter(function(child){
+    let findDescendants = people.filter(function(child){
         if (person.id === child.parents[0] || person.id === child.parents[1]){
             return true;
         }
     })
-    console.log (checkIfParent)
+    alert ('Descendants:\n' + findDescendants.map(function (descendant){
+        return `${descendant.firstName} ${descendant.lastName}`
+    }).join('\n')
+    )
 }
 
 
