@@ -342,4 +342,5 @@ function checkTraitToSearchBy(input){
         input = 'dob'
         return input
     }
+    else return input
 }
