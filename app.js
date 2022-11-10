@@ -201,7 +201,13 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
-
+/**
+* This function is used to find the descendants of a passed in
+* person parameter by filtering through the entire list of data.
+* @param {object} person    The person to search for the descendants of.
+* @param {array} people     The list of data to search through.
+* @alert Alerts the user with all of the person's descendants.
+*/
 function findPersonDescendants(person, people){
 
     let findDescendants = people.filter(function(child){
