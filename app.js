@@ -205,28 +205,22 @@ function chars(input) {
 //////////////////////////////////////////* End Of Starter Code *//////////////////////////////////////////
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
-/**
-* This function is used to find the descendants of a passed in
-* person parameter by filtering through the entire list of data.
-* @param {object} person    The person to search for the descendants of.
-* @param {array} people     The list of data to search through.
-* @param {integer} i        The integer used to increment through the index of people (default = 0).
-*/
 
-function findPersonDescendants(person, people, i = 0){
-    let allDescendants = []
-    
-    while (i < people.length){
-    if (person.id === people[i].parents[0] || person.id === people[i].parents[1]){
-        allDescendants.push(people[i])
-        i++
+function getDescendants(person, people){
+    let foundDescendants = people.filter(function(child){
+        if (person.id === child.parents[0] || person.id === child.parents[1]){
+            return true;
+        }
+    })
+    return foundDescendants
+}
+
+function findPersonDescendants(person, people){
+    let kids = getDescendants(person, people);
+    for (let i = 0; i < kids.length; i++) {
+        kids = kids.concat(findPersonDescendants(kids[i], people))
     }
-    else {
-        i++
-        findPersonDescendants(person, people, i)
-    }
-    }
-    return allDescendants
+ return kids
 }
 
 
