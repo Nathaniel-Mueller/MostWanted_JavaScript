@@ -75,6 +75,10 @@ function mainMenu(person, people) {
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
+            alert('Descendants:\n'+personDescendants.map(function (descendant){
+                return `${descendant.firstName} ${descendant.lastName}`
+            }).join(`\n`))
+            
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -206,19 +210,23 @@ function chars(input) {
 * person parameter by filtering through the entire list of data.
 * @param {object} person    The person to search for the descendants of.
 * @param {array} people     The list of data to search through.
-* @alert Alerts the user with all of the person's descendants.
+* @param {integer} i        The integer used to increment through the index of people (default = 0).
 */
-function findPersonDescendants(person, people){
 
-    let findDescendants = people.filter(function(child){
-        if (person.id === child.parents[0] || person.id === child.parents[1]){
-            return true;
-        }
-    })
-    alert ('Descendants:\n' + findDescendants.map(function (descendant){
-        return `${descendant.firstName} ${descendant.lastName}`
-    }).join('\n')
-    )
+function findPersonDescendants(person, people, i = 0){
+    let allDescendants = []
+    
+    while (i < people.length){
+    if (person.id === people[i].parents[0] || person.id === people[i].parents[1]){
+        allDescendants.push(people[i])
+        i++
+    }
+    else {
+        i++
+        findPersonDescendants(person, people, i)
+    }
+    }
+    return allDescendants
 }
 
 
