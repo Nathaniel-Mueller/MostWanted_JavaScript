@@ -29,7 +29,16 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            searchResults = searchByTrait(people)
+            let getSearchResults = searchByTrait(people)
+            let searchPrompt = prompt('Please choose from the following:\n'+getSearchResults.map(function(person){
+                return `\t${person.firstName} ${person.lastName}`
+            }).join('\n'))
+            searchResults = people.filter(function(person){
+                let personToSearch = person.firstName + ' ' + person.lastName
+                if (searchPrompt.toLowerCase().trim() == personToSearch.toLowerCase().trim()){
+                    return person
+                }
+            })
             break;
         default:
             // Re-initializes the app() if neither case was hit above. This is an instance of recursion.
