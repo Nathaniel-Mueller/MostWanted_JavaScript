@@ -372,7 +372,7 @@ function searchByTrait(people){
 
 }
 
-function checkIfTrait(input){
+function checkIfTrait(input){           //helper
     let validInput = ["gender", "date of birth", "height", "weight", "eye color", "occupation"]
     if (validInput.includes(input.toLowerCase())){
         return true;
@@ -383,7 +383,7 @@ function checkIfTrait(input){
     }
 }
 
-function changeTraitType(input){
+function changeTraitType(input){            //helper
     if (input === 'date of birth'){
         input = 'date of birth (m/d/yyyy)'
         return input
@@ -399,7 +399,7 @@ function changeTraitType(input){
     else return input
 }
 
-function checkTraitToSearchBy(input){
+function checkTraitToSearchBy(input){           //helper
     if (input === 'eye color'){       // Small statement to properly access data
         input = 'eyeColor'
         return input
