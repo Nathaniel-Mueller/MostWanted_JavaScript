@@ -75,10 +75,6 @@ function mainMenu(person, people) {
             //! TODO #3: Declare a findPersonDescendants function //////////////////////////////////////////
             // HINT: Review recursion lecture + demo for bonus user story
             let personDescendants = findPersonDescendants(person[0], people);
-            alert('Descendants:\n'+personDescendants.map(function (descendant){
-                return `${descendant.firstName} ${descendant.lastName}`
-            }).join(`\n`))
-            
             break;
         case "restart":
             // Restart app() from the very beginning
@@ -206,21 +202,25 @@ function chars(input) {
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
 
-function getDescendants(person, people){
-    let foundDescendants = people.filter(function(child){
-        if (person.id === child.parents[0] || person.id === child.parents[1]){
-            return true;
-        }
-    })
-    return foundDescendants
-}
-
-function findPersonDescendants(person, people){
-    let kids = getDescendants(person, people);
-    for (let i = 0; i < kids.length; i++) {
-        kids = kids.concat(findPersonDescendants(kids[i], people))
+function findPersonDescendants(person, people, kids = [], i = 0){
+    let didFindKid;
+    if (i >= people.length){
+        alert('Descendants:\n'+kids.map(function (descendant){
+            return `\t${descendant.firstName} ${descendant.lastName}`
+        }).join(`\n`))
+        return;
     }
- return kids
+    if (person.id === people[i].parents[0] || person.id === people[i].parents[1]){
+        didFindKid = true
+    }
+    if (didFindKid){
+        kids.push(people[i])
+        findPersonDescendants(person, people, kids, ++i)
+    }
+    else if (i < people.length){
+        findPersonDescendants(person, people, kids, ++i)
+    }
+
 }
 
 
@@ -253,15 +253,15 @@ function findPersonFamily(person, people){
     alert(
         'Parents: \n'+
         personParents.map(function (parent) {
-            return `${parent.firstName} ${parent.lastName}`;
+            return `\t${parent.firstName} ${parent.lastName}`;
         }).join("\n")+
         '\nSpouse: \n'+
         personSpouse.map(function (spouse){
-            return `${spouse.firstName} ${spouse.lastName}`;
+            return `\t${spouse.firstName} ${spouse.lastName}`;
         }).join('\n')+
         '\nSiblings: \n'+
         personSiblings.map(function(sibling){
-            return `${sibling.firstName} ${sibling.lastName}`
+            return `\t${sibling.firstName} ${sibling.lastName}`
         }).join('\n')
     );
 
