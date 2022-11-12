@@ -202,8 +202,20 @@ function chars(input) {
 // Any additional functions can be written below this line 👇. Happy Coding! 😁
 
 
+
+/**
+ * This function recursively searches through the people parameter to find 
+ * the person parameter's descendants. 
+ * @param {String} person       The person to find descendants for.
+ * @param {Array} people        The array of people to search through.
+ * @param {Array} kids          The array to alert once all descendants are found. (default = [])
+ * @param {Index} i             The incrementing index to search through the 'people' array with. (default = 0)
+ */
+
 function findPersonDescendants(person, people, kids = [], i = 0){
     let didFindKid;
+
+                    // base
     if (i >= people.length){
         alert('Descendants:\n'+kids.map(function (descendant){
             return `\t${descendant.firstName} ${descendant.lastName}`
@@ -213,6 +225,7 @@ function findPersonDescendants(person, people, kids = [], i = 0){
     if (person.id === people[i].parents[0] || person.id === people[i].parents[1]){
         didFindKid = true
     }
+                    // recurse
     if (didFindKid){
         kids.push(people[i])
         findPersonDescendants(person, people, kids, ++i)
