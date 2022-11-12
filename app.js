@@ -64,7 +64,7 @@ function mainMenu(person, people) {
         case "info":
             //! TODO #1: Utilize the displayPerson function //////////////////////////////////////////
             // HINT: Look for a person-object stringifier utility function to help
-            let personInfo = displayPerson(person[0]);
+            let personInfo = displayPerson(person[0], people);
             break;
         case "family":
             //! TODO #2: Declare a findPersonFamily function //////////////////////////////////////////
@@ -127,12 +127,31 @@ function displayPeople(people) {
 }
 // End of displayPeople()
 
+
 /**
  * This function will be useful for STRINGIFYING a person-object's properties
  * in order to easily send the information to the user in the form of an alert().
  * @param {Object} person       A singular object.
  */
-function displayPerson(person) {
+function displayPerson(person, people) {
+    
+    let personParents = people.filter(function(parent){
+        if (parent.id === person.parents[0] || parent.id === person.parents[1]){
+            return true
+        }
+    })
+
+    let personSpouse = people.filter(function (spouse){
+        if (person.currentSpouse === spouse.id){
+            return true;
+        }
+    })
+    let parents = personParents.map(function (parent){
+        return `${parent.firstName} ${parent.lastName}`
+    }).join(', ')
+    let spouse = personSpouse.map(function (spouse){
+        return `${spouse.firstName} ${spouse.lastName}`
+    })
     let personInfo = `First Name: ${person.firstName}\n`;
     personInfo += `Last Name: ${person.lastName}\n`;
     personInfo += `Gender: ${person.gender}\n`;
@@ -141,6 +160,8 @@ function displayPerson(person) {
     personInfo += `Weight: ${person.weight}\n`
     personInfo += `Eye Color: ${person.eyeColor}\n`
     personInfo += `Occupation: ${person.occupation}\n`
+    personInfo += `Parents: ${parents}\n`
+    personInfo += `Current Spouse: ${spouse}\n`
     //! TODO #1a: finish getting the rest of the information to display //////////////////////////////////////////
     alert(personInfo);
 }
@@ -238,7 +259,7 @@ function findPersonDescendants(person, people, kids = [], i = 0){
 
 
 function findPersonFamily(person, people){
-    
+
     let personParents = people.filter(function(parent){
         if (parent.id === person.parents[0] || parent.id === person.parents[1]){
             return true
