@@ -190,18 +190,22 @@ function displayPerson(person, people) {
  * @param {Function} valid      A callback function used to validate basic user input.
  * @returns {String}            The valid string input retrieved from the user.
  */
-function promptFor(question, valid) {
+function promptFor(question, valid, param = null) {
     do {
         var response = prompt(question).trim();
-    } while (!response || !valid(response));
+    } while (!response || !valid(response, param));
     if (response === 'y'){
         response = 'yes'
     }
     else if (response === 'n'){
         response = 'no'
     } 
-    else {
-        //pass
+    if (response.includes('/')){
+        let responseArray = response.split('/')
+        let mm = parseInt(responseArray[0])
+        let dd = parseInt(responseArray[1])
+        let yyyy = parseInt(responseArray[2])
+        response = (mm+'/'+dd+'/'+yyyy)
     }
     return response;
 }
@@ -318,14 +322,24 @@ function findPersonFamily(person, people){
 
 function searchByTrait(people){
     let traitArray = []
+    let checkTraitArray = []
     let inTraitArray = []
     let foundPersonByTrait;
     let searchByAnother;
+    let traitPrompt;
+    let traitToSearchBy;
     let searchLength = 0;
     while (searchByAnother != 'no' && searchLength < 5){
-        let traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
-        let traitPrompt = changeTraitType(traitToSearchBy)
-        let traitToSearch = promptFor(`Please enter a(n) ${traitPrompt}.`,chars)
+        do {
+            traitPrompt = null
+            traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
+            traitPrompt = changeTraitType(traitToSearchBy)
+            if (checkTraitArray.includes(traitToSearchBy)){
+                alert (`You've already entered a(n) ${traitPrompt}!`)
+            }
+        } while (checkTraitArray.includes(traitToSearchBy))
+        checkTraitArray.push(traitToSearchBy)
+        let traitToSearch = promptFor(`Please enter a(n) ${traitPrompt}.`, checkTraitType, traitToSearchBy)
         traitToSearchBy = checkTraitToSearchBy(traitToSearchBy)
         traitArray.push(traitToSearch)
         inTraitArray.push(traitToSearchBy)
@@ -391,7 +405,7 @@ function checkIfTrait(input){           //helper
 
 function changeTraitType(input){            //helper
     if (input === 'date of birth'){
-        input = 'date of birth (m/d/yyyy)'
+        input = 'date of birth (mm/dd/yyyy)'
         return input
     }
     else if (input === 'height'){
@@ -415,4 +429,62 @@ function checkTraitToSearchBy(input){           //helper
         return input
     }
     else return input
+}
+function checkTraitType (input, inputType){                 //helper
+    switch (inputType){
+        case 'gender':
+            return (input.toLowerCase() === 'male' || input.toLowerCase() === 'female')
+        case 'date of birth':
+            // Pulled this function from a google search to return false if there's not 2 "/".
+            function countSlashes(str) {
+                let count = 0;
+            
+                // looping through the items
+                for (let i = 0; i < str.length; i++) {
+            
+                    // check if the character is at that position
+                    if (str.charAt(i) == '/') {
+                        count++;
+                    }
+                }
+                return count;
+            }
+            let numberOfSlashes = countSlashes(input)
+            if (numberOfSlashes !== 2){
+                return false
+            }
+            let inputArray = input.split('/')
+            let month = parseInt(inputArray[0])
+                if (month > 12){
+                    alert ('There aren\'t that many months in a year!')
+                    return false
+                }
+            let day = parseInt(inputArray[1])
+                if (day > 31){
+                    alert ('There can\'t be that many days in a month!')
+                    return false
+                }
+            let year = parseInt(inputArray[2])
+            if (!isNaN(month) && !isNaN(day) && !isNaN(year)){
+                return true
+            }
+
+            return true    
+        case 'height':
+            if (isNaN(input)){
+                return false
+            }
+            else return true
+        case 'weight':
+            if (isNaN(input)){
+                return false
+            }
+            else return true
+        case 'eye color':
+            if (input === 'brown' || input === 'blue' || input === 'green' || input === 'hazel' || input === 'black'){
+                return true
+            }
+        case 'occupation':
+            return true
+    }
 }
