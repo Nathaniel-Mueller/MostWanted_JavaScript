@@ -30,6 +30,10 @@ function app(people) {
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             let getSearchResults = searchByTrait(people)
+            if (getSearchResults.length === 0){
+                searchResults = []
+                break;
+            }
           do { 
             let searchPrompt = prompt('Your trait search found:\n'+getSearchResults.map(function(person){
                 return `\t${person.firstName} ${person.lastName}`
