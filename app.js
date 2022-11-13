@@ -29,12 +29,12 @@ function app(people) {
         case "no":
             //! TODO #4: Declare a searchByTraits (multiple traits) function //////////////////////////////////////////
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
-            let getSearchResults = searchByTrait(people)
-            if (getSearchResults.length === 0){
+            let getSearchResults = searchByTrait(people) // Get initial trait search result
+            if (getSearchResults.length === 0){ // break if empty
                 searchResults = []
                 break;
             }
-          do { 
+          do {      // Loop until user input in searchPrompt is inside initial trait search result
             let searchPrompt = prompt('Your trait search found:\n'+getSearchResults.map(function(person){
                 return `\t${person.firstName} ${person.lastName}`
             }).join('\n') + '\nPlease select a name from above')
@@ -149,21 +149,26 @@ function displayPeople(people) {
  * @param {Object} person       A singular object.
  */
 function displayPerson(person, people) {
-    
+
+                // Identify {person} parents
     let personParents = people.filter(function(parent){
         if (parent.id === person.parents[0] || parent.id === person.parents[1]){
             return true
         }
     })
-
+                // Identify {person} spouse
     let personSpouse = people.filter(function (spouse){
         if (person.currentSpouse === spouse.id){
             return true;
         }
     })
+
+                // Get person.parent names
     let parents = personParents.map(function (parent){
         return `${parent.firstName} ${parent.lastName}`
     }).join(', ')
+
+                // Get person.spouse name
     let spouse = personSpouse.map(function (spouse){
         return `${spouse.firstName} ${spouse.lastName}`
     })
@@ -194,12 +199,16 @@ function promptFor(question, valid, param = null) {
     do {
         var response = prompt(question).trim();
     } while (!response || !valid(response, param));
+
+                    // Return 'yes' if 'y' or 'no' if 'n'
     if (response === 'y'){
         response = 'yes'
     }
     else if (response === 'n'){
         response = 'no'
     } 
+
+                    // Remove potential 0s for date of birth
     if (response.includes('/')){
         let responseArray = response.split('/')
         let mm = parseInt(responseArray[0])
@@ -279,16 +288,18 @@ function findPersonDescendants(person, people, kids = [], i = 0){
 
 function findPersonFamily(person, people){
 
+                // Get parents
     let personParents = people.filter(function(parent){
         if (parent.id === person.parents[0] || parent.id === person.parents[1]){
             return true
         }
     })
-
+                // Get siblings
     let personSiblings = people.filter(function(sibling){
         if (person.parents.length === 0){
             return false;
-        }
+        }   
+                // Ignore self
         if (person.parents[0] === sibling.parents[0] || person.parents[0] === sibling.parents[1]){
             if (person === sibling){
                 return false;
@@ -297,6 +308,7 @@ function findPersonFamily(person, people){
         }
     })
 
+                // Get spouse
     let personSpouse = people.filter(function (spouse){
         if (person.currentSpouse === spouse.id){
             return true;
@@ -321,17 +333,16 @@ function findPersonFamily(person, people){
 }
 
 function searchByTrait(people){
-    let traitArray = []
-    let checkTraitArray = []
-    let inTraitArray = []
+    let traitArray = []         // Array of user input traits, formatted to work with data.js
+    let checkTraitArray = []    // Array of user input traits
+    let inTraitArray = []       // Array of user input trait types
     let foundPersonByTrait;
     let searchByAnother;
     let traitPrompt;
     let traitToSearchBy;
     let searchLength = 0;
-    while (searchByAnother != 'no' && searchLength < 5){
-        do {
-            traitPrompt = null
+    while (searchByAnother != 'no' && searchLength < 5){        // Search for up to 5 trait types
+        do {        // Check if user input trait type has already been searched
             traitToSearchBy = promptFor('Please enter a trait to search by:\n"gender", "date of birth", "height", "weight", "eye color", or "occupation"', checkIfTrait)
             traitPrompt = changeTraitType(traitToSearchBy)
             if (checkTraitArray.includes(traitToSearchBy)){
@@ -392,7 +403,7 @@ function searchByTrait(people){
 
 }
 
-function checkIfTrait(input){           //helper
+function checkIfTrait(input){           // (helper)     Checks to validate user input for trait type
     let validInput = ["gender", "date of birth", "height", "weight", "eye color", "occupation"]
     if (validInput.includes(input.toLowerCase())){
         return true;
@@ -403,7 +414,7 @@ function checkIfTrait(input){           //helper
     }
 }
 
-function changeTraitType(input){            //helper
+function changeTraitType(input){            // (helper)    Changes user input trait type to return trait type with requested format
     if (input === 'date of birth'){
         input = 'date of birth (mm/dd/yyyy)'
         return input
@@ -419,8 +430,8 @@ function changeTraitType(input){            //helper
     else return input
 }
 
-function checkTraitToSearchBy(input){           //helper
-    if (input === 'eye color'){       // Small statement to properly access data
+function checkTraitToSearchBy(input){           // (helper)     Changes user input to properly work with data.js
+    if (input === 'eye color'){
         input = 'eyeColor'
         return input
     }
@@ -430,7 +441,7 @@ function checkTraitToSearchBy(input){           //helper
     }
     else return input
 }
-function checkTraitType (input, inputType){                 //helper
+function checkTraitType (input, inputType){             // (helper)     Checks user input trait to validate based on user input trait type
     switch (inputType){
         case 'gender':
             return (input.toLowerCase() === 'male' || input.toLowerCase() === 'female')
@@ -484,7 +495,10 @@ function checkTraitType (input, inputType){                 //helper
             if (input === 'brown' || input === 'blue' || input === 'green' || input === 'hazel' || input === 'black'){
                 return true
             }
+            else return false
         case 'occupation':
-            return true
+            if (isNaN(input)){
+                return true
+            }
     }
 }
