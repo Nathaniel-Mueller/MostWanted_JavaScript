@@ -31,9 +31,9 @@ function app(people) {
                 //! TODO #4a: Provide option to search for single or multiple //////////////////////////////////////////
             let getSearchResults = searchByTrait(people)
           do { 
-            let searchPrompt = prompt('Please choose from the following:\n'+getSearchResults.map(function(person){
+            let searchPrompt = prompt('Your trait search found:\n'+getSearchResults.map(function(person){
                 return `\t${person.firstName} ${person.lastName}`
-            }).join('\n'))
+            }).join('\n') + '\nPlease select a name from above')
             searchResults = getSearchResults.filter(function(person){
                 let personToSearch = person.firstName + ' ' + person.lastName
                 if (searchPrompt.toLowerCase().trim() == personToSearch.toLowerCase().trim()){
